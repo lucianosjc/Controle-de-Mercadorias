@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css?family=Medula+One&display=swap');
+body {
+    font-family: 'Medula One', cursive;
+    background-color: #162C3C;
+    align-items: center;
+}
+
+.titulo-principal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(40, 118, 182);
+    color: #fff;
+    height: 500px;
+    font-family: 'Medula One', cursive;
+}
+
+.titulo-principal h1 {
+    font-size: 8em;
+    max-width: 1000px;
+    text-align: center;
+    line-height: 1em;
+}
+
+.conteudo {
+    background-color: rgba(206, 201, 245, 0.986);
+}
+
+nav.menu {
+    max-width: 1000px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+nav.menu ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+nav.menu ul li {
+    display: inline-block;
+    padding: 10px;
+    font-size: 23px;
+    color: rgb(185, 0, 0);
+}
+
+nav.menu ul li:hover {
+    display: inline-block;
+    padding: 8px;
+    background-color: rgba(195, 216, 248, 0.966);
+}
+
+.imagem-principal {
+    background-image: url(../images/imagem-banner.jpg);
+    max-width: 1000px;
+    height: 500px;
+    margin: auto;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.bloco-login {
+    display: flex;
+    flex-flow: column;
+    max-width: 350px;
+    color: rgba(14, 14, 14, 0.801);
+    margin: 30px auto;
+}
+
+.bloco-login>div {
+    display: flex;
+    flex-flow: column;
+    margin: auto;
+}
+
+.bloco-relatorio>div {
+    display: flex;
+    flex-flow: column;
+    margin: auto;
+}
+
+a {
+    display: inline-block;
+    padding: 6px 4px;
+    border: 2px solid rgb(0, 0, 0);
+    background-color: #000;
+    font: 30px, 'Medula One', cursive;
+}
+
+class.b {
+    text-align: center;
+    margin: 0 auto;
+}
+#divBusca{
+    background-color:#E0EEEE;
+    border:solid 2px #5F9EA0;
+    border-radius:10px;
+    width:300px;
+    height:32px;
+  }
+   
+  #txtBusca{
+    float:left;
+    background-color:transparent;
+    padding-left:5px; 
+    font-size:18px;
+    border:none;
+    height:32px;
+    width:191px;
+  }
+   
+  #btnBusca{
+    border:none;
+    float:left;
+    height:28px;
+    border-radius:0 7px 7px 0;
+    width:105px;
+    font-weight:bold;
+    background:#5F9EA0;
+  }
+   
