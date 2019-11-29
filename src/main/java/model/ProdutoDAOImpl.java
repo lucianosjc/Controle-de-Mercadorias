@@ -10,26 +10,34 @@ import model.ProdutoDAO;
 
 public class ProdutoDAOImpl implements ProdutoDAO {
 
-    public ProdutoDAOImpl(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("");        
-        EntityManager em = emf.createEntityManager();
-        Produto p = em.find(Produto.class);
-    }
+    protected EntityManager entityManager;
 
     @Override
     public boolean insert(Produto produto){
-        if(findByCodigo(produto.codigo) != null){
+        //System.out.println("produto e seu codigo" + produto.getCodigo());
+        entityManager = ServicoEntityManager.getEntityManager();
+        if(findByCodigo(produto.getCodigo()) != null){
             return false;
         } else{
-            Query query = em.createNativeQuery("insert into produto (codigo, nome, unidade, preco, quantidade, descricao) " +
-                " values(?, ?, ?, ?, ?, ?)");
-            query.setParameter(1, produto.codigo);
-            query.setParameter(2, produto.nome);
-            query.setParameter(3, produto.unidade);
-            query.setParameter(4, produto.preco);
-            query.setParameter(5, produto.quantidade);
-            query.setParameter(6, produto.descricao);
+            //System.out.println("Cadastrando.");
+            Query query = entityManager.createNativeQuery("insert into Produto (codigo, nome, unidade, preco, quantidade, descricao) " +
+                " values(?, ?, ?, ?, ?, ?)", Produto.class);
+
+            entityManager.getTransaction().begin();
+            query.setParameter(1, produto.getCodigo());
+            query.setParameter(2, produto.getNome());
+            query.setParameter(3, produto.getUnidade());
+            query.setParameter(4, produto.getPreco());
+            query.setParameter(5, produto.getQuantidade());
+            query.setParameter(6, produto.getDescricao());
+
+
             query.executeUpdate();
+
+            entityManager.getTransaction().commit();
+            
+
+            //entityManager.close();
 
             return true;
         }
@@ -37,50 +45,87 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 
     @Override
     public boolean update(Produto produto){
-        if(findByCodigo(produto.codigo) != null){
-            return false;
-        } else{
-            Query query = em.createNativeQuery("update produto set codigo = :codigo, nome = :nome," + 
-            " unidade = :unidade, preco = :preco, quantidade = :quantidade, descricao = : quantidade " +
-            " where codigo = :codigo");
-            query.setParameter("codigo", produto.codigo);
-            query.setParameter("nome", produto.nome);
-            query.setParameter("unidade", produto.unidade);
-            query.setParameter("preco", produto.preco);
-            query.setParameter("quantidade", produto.quantidade);
-            query.setParameter("descricao", produto.descricao);
+        System.out.println("Atualizando.1");
+        entityManager = ServicoEntityManager.getEntityManager();
+        // if(findByCodigo(produto.getCodigo()) != null){
+        //     System.out.println("Erro ao char o codigo.");
+        //     return false;
+        // } else{
+            System.out.println("Atualizandooo 2.");
+            Query query = entityManager.createNativeQuery("update Produto set codigo = :codigo, nome = :nome, unidade = :unidade, preco = :preco, quantidade = :quantidade, descricao = :descricao where codigo = :codigo", Produto.class);
+            entityManager.getTransaction().begin();
+            query.setParameter("codigo", produto.getCodigo());
+            query.setParameter("nome", produto.getNome());
+            query.setParameter("unidade", produto.getUnidade());
+            query.setParameter("preco", produto.getPreco());
+            query.setParameter("quantidade", produto.getQuantidade());
+            query.setParameter("descricao", produto.getDescricao());
+
             query.executeUpdate();
+            //query.merge(produto);
+            entityManager.merge(produto);
+            entityManager.getTransaction().commit();
+            
+
+            System.out.println("Sucesso ao atualiar");
+
+            //entityManager.close();
 
             return true;
-        }
+        //}
     }
 
     @Override
     public boolean delete(Integer codigo){
-        if(findByCodigo(codigo) == null){
-            return false;
-        } else{
-            Query query = em.createNativeQuery("delete from produto where codigo = :codogp");
-            query.setParameter("codigo", codigo);
-            query.executeUpdate();
+        entityManager = ServicoEntityManager.getEntityManager();
+        //if(findByCodigo(codigo) == null){
+        //    return false;
+        //} else{
+        Query query = entityManager.createNativeQuery("delete from Produto where codigo = :codigo", Produto.class);
+        query.setParameter("codigo", codigo);
 
-            return true;
-        }
+        entityManager.getTransaction().begin();
+        query.executeUpdate();
+        entityManager.getTransaction().commit();
+
+        // entityManager.close();
+
+        return true;
+        //}
     }
 
     @Override
     public Produto findByCodigo(Integer codigo){
-        Query query = em.createQuery("select p from produto p  where p.codigo = :codigo"); 
-        query.setParameter("codigo", codigo);  
-        Produto produto = query.getResultList();
+        //System.out.print("entrou no codigo " + codigo);
+        try{
+            entityManager = ServicoEntityManager.getEntityManager();
+            Query query = entityManager.createQuery("select p from Produto p  where p.codigo = :codigo", Produto.class); 
 
-        return produto;
+            query.setParameter("codigo", codigo);  
+
+            Produto produto = (Produto)query.getSingleResult();
+
+
+            //System.out.print("vproduto e  :" + produto);
+
+            return produto;
+        } catch(Exception e){
+            System.out.print("Erro ");
+            return null;
+        }
     }
 
     @Override
     public List<Produto> findAll(){
-        Query query = em.createQuery("select p from produto p "); 
+        entityManager = ServicoEntityManager.getEntityManager();
+        Query query = entityManager.createQuery("select p from Produto p ", Produto.class); 
+
+        entityManager.getTransaction().begin();
         List<Produto> produto = query.getResultList();
+        entityManager.getTransaction().commit();
+        System.out.println("olha a lançaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+        //entityManager.close(); 
 
         return produto;
     }

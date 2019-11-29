@@ -15,12 +15,13 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'javax.servlet:jstl:1.2'
-    implementation 'mysql:mysql-connector-java:6.0.6'
+    implementation 'mysql:mysql-connector-java:8.0.18'
     implementation 'org.hibernate:hibernate-core:5.3.7.Final'
 }
 

@@ -4,16 +4,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
 
 @Entity
 @Table(name = "produto")
 public class Produto {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	@GeneratedValue
+	private Long id;
 
-	@Index(unique="true")
 	@Column(name = "codigo", nullable = false)
 	private Integer codigo;
 	
@@ -29,6 +29,8 @@ public class Produto {
     @Column(name = "quantidade", nullable = false)
     private Integer quantidade;
     
+    @Column(name = "descricao", nullable = false)
+	private String descricao;
 
 	public Produto(){}
 
@@ -79,5 +81,11 @@ public class Produto {
 		this.quantidade = quantidade;
 	}
 
-	
+	public String getDescricao(){
+		return descricao;
+	}
+
+	public void setDescricao(String descricao){
+		this.descricao = descricao;
+	}
 }
